@@ -1,0 +1,40 @@
+MONGODB - PRATICA III
+
+use Empresa
+
+db.createCollection("Pessoa")
+
+db.Pessoa.insertMany([{Nome: "Carlos", Idade: 23, Cargo:"Programador", Cidade: "Recife"},
+                      {Nome: "João da Silva", Idade: 30, Cargo: "Engenheiro de Software", Cidade: "São Paulo"},
+                      {Nome: "Maria Santos", Idade: 25, Cargo: "Médica", Cidade: "Rio de Janeiro"},
+                      {Nome: "Ana Ferreira", Idade: 35, Cargo: "Professora", Cidade: "Belo Horizonte"},
+                      {Nome: "Pedro Pereira", Idade: 28, Cargo: "Designer Gráfico", Cidade: "Recife"},
+                      {Nome: "Luiza Gonçalves", Idade: 45, Cargo: "Contadora", Cidade: "Porto Alegre"},
+                      {Nome: "Rafaela Santos", Idade: 32, Cargo: "Engenheira Civil", Cidade: "Salvador"},
+                      {Nome: "Camila Lima", Idade: 38, Cargo: "Médica Veterinária", Cidade: "Curitiba"},
+                      {Nome: "Lucas Martins", Idade: 29, Cargo: "Consultor de Marketing", Cidade: "Manaus"},
+                      {Nome: "Carlos Oliveira", Idade: 40, Cargo: "Advogado", Cidade: "Brasília"}])
+
+
+db.Pessoa.updateMany({nome:'Pedro Pereira'}, {$set: {nome:'Pedro Pereira Sampaio'}})
+
+db.Pessoa.updateMany({nome:'Luiza Gonçalves'}, {$set: {nome:'Luiza Sonza Gonçalves'}})
+
+db.Pessoa.insertOne({Nome:"Luiza Sonza Gonçalves"}, {$set:{endereco:{rua: "Manoel Tavares", num:15}}})
+
+db.Pessoa.updateMany({Nome:"Pedro Pereira Sampaio"}, {$set: {endereco:{rua:"Floriano Peixoto", num:30}}})
+
+db.Pessoa.find({Idade:{$gt:25}})
+
+db.Pessoa.aggregate([{$group:{ _id:"$Cidade", mediaIdade: {$avg:"$Idade"}}}])
+
+db.Setor.insertOne({Sigla: "TI", Descricao:"Tecnologia da Informacao", Salario:6000})
+db.Setor.insertOne({Sigla: "SD", Descricao:"Saúde", Salario:5000})
+db.Setor.insertOne({Sigla: "HU", Descricao:"Humanas", Salario:4000})
+db.Setor.insertOne({Sigla: "MKT", Descricao:"Maketing", Salario:5000})
+
+db.Setor.find().sort({Salario: -1}).limit(1)
+
+db.Setor.find().sort({Salario: +1}.limit(1))
+
+db.Setor.aggregate([{$group: {_id: null, mediaSalario: {$avg: "$Salario"}}}])
